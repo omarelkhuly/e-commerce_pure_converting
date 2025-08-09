@@ -1,0 +1,64 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif !important
+}
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 200;
+}
+
+main {
+    margin-top: 70px;
+}
+
+.cartsProudect {
+    width: 300px;
+    top: 51px;
+    border: 1px solid #007bff;
+    z-index: 99999999;
+}
+
+.shoppingCart{
+    cursor: pointer;
+}
+
+.section-form {
+    margin-top: 50px;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    text-align: center;
+    padding: 30px;
+}
+
+.section-form h2 {
+    font-size: 50px;
+    letter-spacing: 2px;
+    color: #fff;
+}
+
+.section-form form input {
+    display: block;
+    width: 100%;
+    margin: 5px 0px;
+    height: 30px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    font-family: cursive;
+    /* input not inherint from body لا يخضع لقوانين البادي*/
+    outline: none;
+}
+
+.section-form form input[type="submit"]:hover {
+    opacity: .5;
+}
