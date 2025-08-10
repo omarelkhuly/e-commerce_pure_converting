@@ -26,7 +26,7 @@ main {
     z-index: 99999999;
 }
 
-.shoppingCart{
+.shoppingCart {
     cursor: pointer;
 }
 
@@ -61,4 +61,19 @@ main {
 
 .section-form form input[type="submit"]:hover {
     opacity: .5;
+}
+
+.width_style {
+    width: 40%;
+}
+
+@media screen and (max-width: 768px) and (min-width: 280px) {
+    .section-form {
+        width: 100%;
+        top: 30%;
+    }
+
+    .width_style {
+        width: 70%;
+    }
 }

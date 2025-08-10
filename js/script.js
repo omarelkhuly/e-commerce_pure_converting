@@ -1,6 +1,7 @@
+function isUserLoggedIn() {
+    return localStorage.getItem("isLoggedIn") === "true";
+}
 
-
-// التعامل مع حالة الاتصال بالإنترنت
 const noInternet = document.querySelector('.noInternet');
 function checkInternet() {
     if (!noInternet) return;
@@ -10,7 +11,6 @@ window.addEventListener('online', checkInternet);
 window.addEventListener('offline', checkInternet);
 checkInternet();
 
-// بيانات المنتجات
 const products = [
     { id: 1, title: "Dell G15-5520", category: "Laptop", color: "Black", price: 36870, salePrice: 36270, imageURL: "images/Labtop1.jpg" },
     { id: 2, title: "Lenovo V15", category: "Laptop", color: "Gray", price: 13333, salePrice: 13011, imageURL: "images/Labtop2.jpg" },
@@ -33,7 +33,6 @@ const products = [
     { id: 19, title: "Galaxy Z Fold5", category: "Phone", color: "Light Blue", price: 73930, salePrice: 66000, imageURL: "images/phone7.jpg" }
 ];
 
-// عناصر DOM
 const allProducts = document.querySelector(".products");
 const badge = document.querySelector(".badge");
 const buyProudect = document.querySelector(".buyProudect");
@@ -43,12 +42,10 @@ const cartsProudect = document.querySelector(".cartsProudect");
 const search = document.getElementById("search");
 const searchOption = document.getElementById("searchOption");
 
-// جلب بيانات العربة والمفضلة من localStorage
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 cart = cart.map(i => ({ ...i, quantity: i.quantity || 1 }));
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
-// دالة إنشاء بطاقة منتج
 function createProductCard(item) {
     const inCart = cart.some(p => p.id === item.id);
     const heartIconClass = favorites.includes(item.id) ? "fas" : "far";
@@ -74,13 +71,11 @@ function createProductCard(item) {
   `;
 }
 
-// عرض المنتجات
 function renderProducts(list) {
     if (!allProducts) return;
     allProducts.innerHTML = list.map(createProductCard).join('');
 }
 
-// تعامل مع أزرار إضافة/حذف من العربة وتفضيل
 if (allProducts) {
     allProducts.addEventListener('click', function (e) {
         const addBtn = e.target.closest('.add-cart');
@@ -91,8 +86,12 @@ if (allProducts) {
     });
 }
 
-// إضافة منتج للعربة
 function addToCart(id) {
+    if (!isUserLoggedIn()) {
+        alert("يجب تسجيل الدخول أولاً قبل إضافة المنتج للسلة");
+        window.location = "login.html";
+        return;
+    }
     const product = products.find(p => p.id === id);
     if (!product) return;
     const inCart = cart.find(p => p.id === id);
@@ -102,14 +101,12 @@ function addToCart(id) {
     renderProducts(products);
 }
 
-// إزالة منتج من العربة
 function removeFromCart(id) {
     cart = cart.filter(p => p.id !== id);
     saveCart();
     renderProducts(products);
 }
 
-// حفظ العربة في localStorage وتحديث العرض
 function saveCart() {
     localStorage.setItem("cart", JSON.stringify(cart));
     const total = cart.reduce((sum, item) => sum + (+item.salePrice) * (+item.quantity), 0);
@@ -121,7 +118,6 @@ function saveCart() {
     renderCartDropdown();
 }
 
-// عرض محتويات العربة في القائمة المنسدلة
 function renderCartDropdown() {
     if (!buyProudect) return;
     buyProudect.innerHTML = cart.map(item => `
@@ -134,7 +130,6 @@ function renderCartDropdown() {
   `).join('');
 }
 
-// التعامل مع أزرار زيادة ونقص كمية المنتج بالعربة
 if (buyProudect) {
     buyProudect.addEventListener('click', function (e) {
         const plus = e.target.closest('.pls');
@@ -157,8 +152,12 @@ if (buyProudect) {
     });
 }
 
-// التبديل بين التفضيل وإزالة التفضيل
 function toggleFavorite(productId, iconElement) {
+    if (!isUserLoggedIn()) {
+        alert("يجب تسجيل الدخول أولاً قبل إضافة المنتج للمفضلة");
+        window.location = "login.html";
+        return;
+    }
     if (!iconElement) return;
     if (favorites.includes(productId)) {
         favorites = favorites.filter(id => id !== productId);
@@ -173,7 +172,6 @@ function toggleFavorite(productId, iconElement) {
     renderProducts(products);
 }
 
-// التعامل مع ضغطات التفضيل
 document.addEventListener("click", function (e) {
     if (e.target.classList.contains("fav")) {
         const id = parseInt(e.target.dataset.id);
@@ -181,7 +179,6 @@ document.addEventListener("click", function (e) {
     }
 });
 
-// البحث في المنتجات
 let modeSearch = "title";
 if (searchOption) {
     searchOption.addEventListener("change", function () {
@@ -200,15 +197,11 @@ function searchData(value) {
     renderProducts(filtered);
 }
 
-// إظهار وإخفاء قائمة عربة التسوق
 if (shoppingCartIcon && cartsProudect) {
-    if (shoppingCartIcon) {
-        shoppingCartIcon.addEventListener('click', function () {
-            cartsProudect.classList.toggle('d-none');
-        });
-    }
+    shoppingCartIcon.addEventListener('click', function () {
+        cartsProudect.classList.toggle('d-none');
+    });
 }
 
-// تنفيذ العرض الأولي للمنتجات وحساب العربة
 renderProducts(products);
 saveCart();
