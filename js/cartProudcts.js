@@ -1,3 +1,4 @@
+// cartproudcts code
 let productsContainer = document.querySelector(".products");
 let totalPriceEl = document.querySelector(".totalPrice");
 

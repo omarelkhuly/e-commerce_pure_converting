@@ -1,3 +1,4 @@
+// script code
 function isUserLoggedIn() {
     return localStorage.getItem("isLoggedIn") === "true";
 }

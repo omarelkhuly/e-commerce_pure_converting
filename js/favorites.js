@@ -1,3 +1,4 @@
+// favorites code
 let container = document.getElementById("products_container");
 container.innerHTML = "";
 
